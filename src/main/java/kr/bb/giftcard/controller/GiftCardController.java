@@ -1,13 +1,15 @@
 package kr.bb.giftcard.controller;
 
-import kr.bb.giftcard.dto.GiftCardMessageDto;
-import kr.bb.giftcard.dto.GiftCardRegisterDto;
 import kr.bb.giftcard.entity.CardTemplate;
-import kr.bb.giftcard.service.GiftCardService;
 import kr.bb.giftcard.service.GiftCardTemplateService;
+import kr.bb.giftcard.dto.GiftCardRegisterDto;
+import kr.bb.giftcard.dto.GiftCardMessageDto;
+import kr.bb.giftcard.service.GiftCardService;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
+import kr.bb.giftcard.service.response.GiftCardItemResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +40,7 @@ public class GiftCardController {
      * @param messageDto
      * @return
      */
-    @PostMapping("/api/v1/chat/completions")
+    @PostMapping("/gpt")
     public String getRecommandCardMessage(@Valid @RequestBody GiftCardMessageDto messageDto) {
         return giftCardService.getChatResponse(messageDto);
     }

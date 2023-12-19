@@ -2,8 +2,8 @@ package kr.bb.giftcard.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "gift_card")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class GiftCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,8 +48,7 @@ public class GiftCard {
     private String type;
 
     @CreatedDate
-    @ColumnDefault("now()")
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
 }

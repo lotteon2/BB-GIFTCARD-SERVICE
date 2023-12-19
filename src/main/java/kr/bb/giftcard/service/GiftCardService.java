@@ -1,14 +1,17 @@
 package kr.bb.giftcard.service;
 
 import io.github.flashvayne.chatgpt.service.ChatgptService;
-import kr.bb.giftcard.dto.GiftCardMessageDto;
 import kr.bb.giftcard.dto.GiftCardRegisterDto;
-import kr.bb.giftcard.entity.CardTemplate;
 import kr.bb.giftcard.entity.GiftCard;
+import kr.bb.giftcard.exception.InvalidGiftCardIdException;
+import kr.bb.giftcard.exception.InvalidGiftCardTemplateException;
+import kr.bb.giftcard.exception.InvalidPasswordException;
 import kr.bb.giftcard.repository.GiftCardRepository;
-import kr.bb.giftcard.repository.GiftCardTemplateRepository;
+import kr.bb.giftcard.dto.GiftCardMessageDto;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
 import kr.bb.giftcard.service.response.GiftCardItemResponse;
+import kr.bb.giftcard.entity.CardTemplate;
+import kr.bb.giftcard.repository.GiftCardTemplateRepository;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,20 +33,21 @@ public class GiftCardService {
 
     // 내가 쓴 카드 목록 조회
     public MyGiftCardListResponse getMyCardList(Long userId, Pageable paging) {
-        Long totalCnt = giftCardRepository.count();
         Page<GiftCardItemResponse> myCardList = giftCardRepository.findByUserId(userId, paging);
 
         return MyGiftCardListResponse.builder()
-                .totalCnt(totalCnt)
+                .totalCnt(myCardList.getTotalElements())
                 .myCards(myCardList)
                 .build();
     }
 
     // 카드 상세 조회
     public GiftCardDetailResponse getCardDetail(Long cardId, String password) {
-        GiftCard giftCard = giftCardRepository.findByCardId(cardId);
-        CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCard.getCardTemplate().getCardTemplateId());
-        if(!passwordEncoder.matches(giftCard.getPassword(), password)) throw new RuntimeException("유효하지 않은 접근입니다.");
+        GiftCard giftCard = giftCardRepository.findByCardId(cardId).orElseThrow(() -> new InvalidGiftCardIdException("존재하지 않은 카드 입니다."));
+
+        CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCard.getCardTemplate().getCardTemplateId())
+                .orElseThrow(() -> new InvalidGiftCardTemplateException("존재하지 않는 카드 템플릿입니다."));
+        if(!passwordEncoder.matches(giftCard.getPassword(), password)) throw new InvalidPasswordException("유효하지 않은 접근입니다.");
 
         return GiftCardDetailResponse.builder()
                 .cardId(giftCard.getCardId())
@@ -57,7 +61,8 @@ public class GiftCardService {
     // 키드 메세지 작성
     @Transactional
     public GiftCard registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type, String tmpPassword) {
-        CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCardRegisterDto.getCardTemplateId());
+        CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCardRegisterDto.getCardTemplateId())
+                .orElseThrow(() -> new InvalidGiftCardTemplateException("존재하지 않는 카드 템플릿입니다."));;
 
         return giftCardRepository.save(GiftCard.builder()
                 .orderProductId(giftCardRegisterDto.getOrderProductId())
