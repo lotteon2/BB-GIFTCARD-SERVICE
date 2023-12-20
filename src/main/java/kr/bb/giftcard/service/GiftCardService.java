@@ -52,7 +52,6 @@ public class GiftCardService {
         return GiftCardDetailResponse.builder()
                 .cardId(giftCard.getCardId())
                 .imageUrl(cardTemplate.getImageUrl())
-                .senderName(giftCard.getSenderName())
                 .content(giftCard.getContent())
                 .createdAt(giftCard.getCreatedAt())
                 .build();
@@ -67,9 +66,7 @@ public class GiftCardService {
         return giftCardRepository.save(GiftCard.builder()
                 .orderProductId(giftCardRegisterDto.getOrderProductId())
                 .userId(userId)
-                .senderName(giftCardRegisterDto.getSenderName())
                 .password(tmpPassword)
-                .recipientPhoneNumber(giftCardRegisterDto.getRecipientPhoneNumber())
                 .cardTemplate(cardTemplate)
                 .type(type)
                 .content(giftCardRegisterDto.getContent())

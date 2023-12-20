@@ -101,29 +101,8 @@ class GiftCardControllerTest {
     void giftCardCreatePropertiesCannotBeNullAndEmpty4() throws Exception {
         GiftCardRegisterDto giftCardRegisterDto = GiftCardRegisterDto.builder()
                 .orderProductId(1L)
-                .recipientPhoneNumber(null)
                 .cardTemplateId(1L)
-                .senderName("test")
-                .content("test content")
-                .build();
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(giftCardRegisterDto))
-                        .header("userId", 1L).param("type", "DELIVERY"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @DisplayName("핸드폰번호 자리수는 11자리여야 한다.")
-    @Test
-    void checkPhoneNumber() throws Exception {
-        GiftCardRegisterDto giftCardRegisterDto = GiftCardRegisterDto.builder()
-                .orderProductId(1L)
-                .recipientPhoneNumber("0101234567")
-                .cardTemplateId(1L)
-                .senderName("test")
-                .content("test content")
+                .content("")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/")
@@ -137,9 +116,7 @@ class GiftCardControllerTest {
     private GiftCardRegisterDto createRegisterDto() {
         return GiftCardRegisterDto.builder()
                 .orderProductId(1L)
-                .recipientPhoneNumber("01012345678")
                 .cardTemplateId(1L)
-                .senderName("test")
                 .content("test content")
                 .build();
     }

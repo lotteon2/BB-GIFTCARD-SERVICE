@@ -144,9 +144,7 @@ class GiftCardServiceTest {
 
         GiftCardRegisterDto giftCardRegisterDto = GiftCardRegisterDto.builder()
                 .orderProductId(index)
-                .recipientPhoneNumber("01012345678")
                 .cardTemplateId(template.getCardTemplateId())
-                .senderName("sender")
                 .content("hello")
                 .build();
 

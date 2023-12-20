@@ -38,12 +38,6 @@ public class GiftCard {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "sender_name", nullable = false)
-    private String senderName;
-
-    @Column(name = "recipient_phone_number", nullable = false)
-    private String recipientPhoneNumber;
-
     @Column(name = "type", nullable = false)
     private String type;
 
