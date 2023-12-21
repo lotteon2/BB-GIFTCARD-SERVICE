@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class GiftCardDetailResponse {
     private Long cardId;
     private String imageUrl;
-    private String senderName;
     private String content;
     private LocalDateTime createdAt;
 }
