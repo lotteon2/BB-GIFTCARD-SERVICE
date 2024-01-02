@@ -1,28 +1,25 @@
 package kr.bb.giftcard.controller;
 
-import kr.bb.giftcard.entity.CardTemplate;
-import kr.bb.giftcard.service.GiftCardTemplateService;
-import kr.bb.giftcard.dto.GiftCardRegisterDto;
 import kr.bb.giftcard.dto.GiftCardMessageDto;
-import kr.bb.giftcard.service.GiftCardService;
+import kr.bb.giftcard.dto.GiftCardRegisterDto;
+import kr.bb.giftcard.entity.CardTemplate;
+import kr.bb.giftcard.facade.GiftCardFacade;
+import kr.bb.giftcard.service.GiftCardTemplateService;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
-import kr.bb.giftcard.service.response.GiftCardItemResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class GiftCardController {
-    private final GiftCardService giftCardService;
+    private final GiftCardFacade giftCardFacade;
     private final GiftCardTemplateService giftCardTemplateService;
 
     /**
@@ -42,7 +39,7 @@ public class GiftCardController {
      */
     @PostMapping("/gpt")
     public String getRecommandCardMessage(@Valid @RequestBody GiftCardMessageDto messageDto) {
-        return giftCardService.getChatResponse(messageDto);
+        return giftCardFacade.getChatResponse(messageDto);
     }
 
     /**
@@ -54,8 +51,7 @@ public class GiftCardController {
      */
     @PostMapping("/")
     public ResponseEntity<Void> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
-        String tmpPassword = UUID.randomUUID().toString().split("-")[0];
-        giftCardService.registerGiftCard(giftCardRegisterDto, userId, type, tmpPassword);
+        giftCardFacade.registerGiftCard(giftCardRegisterDto, userId, type);
         return ResponseEntity.ok().build();
     }
 
@@ -67,7 +63,7 @@ public class GiftCardController {
      */
     @GetMapping("/")
     public ResponseEntity<MyGiftCardListResponse> getMyCardList(@RequestHeader Long userId, Pageable pageable) {
-        return ResponseEntity.ok(giftCardService.getMyCardList(userId, pageable));
+        return ResponseEntity.ok(giftCardFacade.getMyCardList(userId, pageable));
     }
 
     /**
@@ -78,6 +74,6 @@ public class GiftCardController {
      */
     @GetMapping("/card/{cardId}/{password}")
     public ResponseEntity<GiftCardDetailResponse> getCardDetail(@PathVariable Long cardId, @PathVariable String password) {
-        return ResponseEntity.ok(giftCardService.getCardDetail(cardId, password));
+        return ResponseEntity.ok(giftCardFacade.getCardDetail(cardId, password));
     }
 }
