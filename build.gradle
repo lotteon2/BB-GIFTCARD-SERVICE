@@ -27,7 +27,7 @@ ext {
 
 dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-bus-kafka"
-    implementation 'io.github.lotteon-maven:blooming-blooms-utils:202312210535'
+    implementation 'io.github.lotteon-maven:blooming-blooms-utils:202312290714'
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -40,6 +40,12 @@ dependencies {
     implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
     runtimeOnly 'com.h2database:h2'
     implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // sqs
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.4.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-aws-messaging:2.2.4.RELEASE'
+    implementation 'software.amazon.awssdk:sns:2.21.37'
+
 }
 
 dependencyManagement {

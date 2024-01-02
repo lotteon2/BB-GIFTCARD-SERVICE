@@ -3,6 +3,7 @@ package kr.bb.giftcard.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.bb.giftcard.dto.GiftCardMessageDto;
 import kr.bb.giftcard.dto.GiftCardRegisterDto;
+import kr.bb.giftcard.facade.GiftCardFacade;
 import kr.bb.giftcard.service.GiftCardService;
 import kr.bb.giftcard.service.GiftCardTemplateService;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +24,7 @@ class GiftCardControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
-    private GiftCardService giftCardService;
+    private GiftCardFacade giftCardFacade;
     @MockBean
     private GiftCardTemplateService giftCardTemplateService;
 

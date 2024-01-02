@@ -1,17 +1,15 @@
 package kr.bb.giftcard.service;
 
-import io.github.flashvayne.chatgpt.service.ChatgptService;
 import kr.bb.giftcard.dto.GiftCardRegisterDto;
+import kr.bb.giftcard.entity.CardTemplate;
 import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.exception.InvalidGiftCardIdException;
 import kr.bb.giftcard.exception.InvalidGiftCardTemplateException;
 import kr.bb.giftcard.exception.InvalidPasswordException;
 import kr.bb.giftcard.repository.GiftCardRepository;
-import kr.bb.giftcard.dto.GiftCardMessageDto;
+import kr.bb.giftcard.repository.GiftCardTemplateRepository;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
 import kr.bb.giftcard.service.response.GiftCardItemResponse;
-import kr.bb.giftcard.entity.CardTemplate;
-import kr.bb.giftcard.repository.GiftCardTemplateRepository;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class GiftCardService {
     private final GiftCardTemplateRepository cardTemplateRepository;
     private final GiftCardRepository giftCardRepository;
-    private final ChatgptService chatgptService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     // 내가 쓴 카드 목록 조회
@@ -57,11 +54,11 @@ public class GiftCardService {
                 .build();
     }
 
-    // 키드 메세지 작성
+    // 카드 메세지 작성
     @Transactional
     public GiftCard registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type, String tmpPassword) {
         CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCardRegisterDto.getCardTemplateId())
-                .orElseThrow(() -> new InvalidGiftCardTemplateException("존재하지 않는 카드 템플릿입니다."));;
+                .orElseThrow(() -> new InvalidGiftCardTemplateException("존재하지 않는 카드 템플릿입니다."));
 
         return giftCardRepository.save(GiftCard.builder()
                 .orderProductId(giftCardRegisterDto.getOrderProductId())
@@ -71,13 +68,8 @@ public class GiftCardService {
                 .type(type)
                 .content(giftCardRegisterDto.getContent())
                 .build());
-
-        // TODO: 작성 완료 후 SQS
     }
 
     // 카드 메세지 글귀 추천
-    public String getChatResponse(GiftCardMessageDto messageDto) {
-        return chatgptService.sendMessage("Could you please recommend with the theme of " + messageDto.getFlower() + ", you can send emotional random letter to your " + messageDto.getTarget() + " with more than 300 characters convert korean");
-    }
 
 }
