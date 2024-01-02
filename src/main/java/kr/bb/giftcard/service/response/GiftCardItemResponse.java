@@ -10,15 +10,17 @@ import java.time.LocalDateTime;
 @Getter
 public class GiftCardItemResponse {
     private Long cardId;
+    private String imageUrl;
     private String password;
     private String content;
     private LocalDateTime createdAt;
 
     @Builder
-    public GiftCardItemResponse(Long cardId, String password, String content, LocalDateTime createdAt) {
+    public GiftCardItemResponse(Long cardId, String imageUrl, String password, String content, LocalDateTime createdAt) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         this.cardId = cardId;
+        this.imageUrl = imageUrl;
         this.password = passwordEncoder.encode(password);
         this.content = content;
         this.createdAt = createdAt;

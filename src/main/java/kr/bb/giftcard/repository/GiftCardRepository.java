@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface GiftCardRepository extends JpaRepository<GiftCard, Long> {
 
-    @Query(value = "SELECT new kr.bb.giftcard.service.response.GiftCardItemResponse(gc.cardId, gc.password, gc.content, gc.createdAt) FROM GiftCard gc WHERE gc.userId = :userId ORDER BY gc.createdAt DESC")
+    @Query(value = "SELECT new kr.bb.giftcard.service.response.GiftCardItemResponse(gc.cardId, ct.imageUrl, gc.password, gc.content, gc.createdAt) FROM GiftCard gc INNER JOIN CardTemplate ct ON gc.cardTemplate.cardTemplateId =ct.cardTemplateId WHERE gc.userId = :userId ORDER BY gc.createdAt DESC")
     Page<GiftCardItemResponse> findByUserId(Long userId, Pageable paging);
 
     Optional<GiftCard> findByCardId(Long cardId);

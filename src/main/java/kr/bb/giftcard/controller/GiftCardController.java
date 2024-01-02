@@ -3,6 +3,7 @@ package kr.bb.giftcard.controller;
 import kr.bb.giftcard.dto.GiftCardMessageDto;
 import kr.bb.giftcard.dto.GiftCardRegisterDto;
 import kr.bb.giftcard.entity.CardTemplate;
+import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.facade.GiftCardFacade;
 import kr.bb.giftcard.service.GiftCardTemplateService;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
@@ -50,9 +51,9 @@ public class GiftCardController {
      * @return
      */
     @PostMapping("/")
-    public ResponseEntity<Void> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
-        giftCardFacade.registerGiftCard(giftCardRegisterDto, userId, type);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<GiftCard> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
+
+        return ResponseEntity.ok(giftCardFacade.registerGiftCard(giftCardRegisterDto, userId, type));
     }
 
     /**

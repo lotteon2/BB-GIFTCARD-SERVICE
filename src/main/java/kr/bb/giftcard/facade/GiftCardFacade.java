@@ -3,6 +3,7 @@ package kr.bb.giftcard.facade;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import kr.bb.giftcard.dto.GiftCardMessageDto;
 import kr.bb.giftcard.dto.GiftCardRegisterDto;
+import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.message.CardSNSPublisher;
 import kr.bb.giftcard.message.event.CardRegisterEvent;
 import kr.bb.giftcard.service.GiftCardService;
@@ -29,10 +30,11 @@ public class GiftCardFacade {
         return giftCardService.getCardDetail(cardId, password);
     }
 
-    public void registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type) {
+    public GiftCard registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type) {
         String tmpPassword = UUID.randomUUID().toString().split("-")[0];
-        giftCardService.registerGiftCard(giftCardRegisterDto, userId, type, tmpPassword);
+        GiftCard result = giftCardService.registerGiftCard(giftCardRegisterDto, userId, type, tmpPassword);
         cardSNSPublisher.publish(CardRegisterEvent.of(giftCardRegisterDto.getOrderProductId(), type));
+        return result;
     }
 
     // 카드 메세지 글귀 추천
@@ -41,7 +43,7 @@ public class GiftCardFacade {
                 messageDto.getTarget() +
                 "on the subject of" +
                 messageDto.getFlower() +
-                "into html code at the same time as translating into Korean? Please print out the converted html code body internal content only";
+                "into html code at the same time as translating into Korean? Please print out only the internal content without the 'body' tag.";
         return chatgptService.sendMessage(message);
     }
 
