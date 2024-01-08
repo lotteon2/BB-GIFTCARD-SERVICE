@@ -50,7 +50,7 @@ public class GiftCardController {
      * @param giftCardRegisterDto
      * @return
      */
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<GiftCard> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
 
         return ResponseEntity.ok(giftCardFacade.registerGiftCard(giftCardRegisterDto, userId, type));
@@ -62,7 +62,7 @@ public class GiftCardController {
      * @param pageable
      * @return
      */
-    @GetMapping("/")
+    @GetMapping("/my")
     public ResponseEntity<MyGiftCardListResponse> getMyCardList(@RequestHeader Long userId, Pageable pageable) {
         return ResponseEntity.ok(giftCardFacade.getMyCardList(userId, pageable));
     }
