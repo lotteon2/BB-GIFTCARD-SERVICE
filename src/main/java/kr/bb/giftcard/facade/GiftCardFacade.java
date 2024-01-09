@@ -39,11 +39,11 @@ public class GiftCardFacade {
 
     // 카드 메세지 글귀 추천
     public String getChatResponse(GiftCardMessageDto messageDto) {
-        String message = "Can you translate more than 300 characters of emotional letter to my" +
+        String message = "Can you translate more than 300 characters of emotional letter to my " +
                 messageDto.getTarget() +
-                "on the subject of" +
+                " on the subject of " +
                 messageDto.getFlower() +
-                "into html code at the same time as translating into Korean? Please print out only the internal content without the 'body' tag.";
+                " into html code at the same time as translating into Korean? Please print out only the internal content without the 'body' tag.";
         return chatgptService.sendMessage(message);
     }
 
