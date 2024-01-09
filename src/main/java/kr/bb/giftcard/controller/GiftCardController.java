@@ -7,6 +7,7 @@ import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.facade.GiftCardFacade;
 import kr.bb.giftcard.service.GiftCardTemplateService;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
+import kr.bb.giftcard.service.response.GiftCardRegisterResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -50,8 +51,8 @@ public class GiftCardController {
      * @param giftCardRegisterDto
      * @return
      */
-    @PostMapping("/")
-    public ResponseEntity<GiftCard> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
+    @PostMapping("/register")
+    public ResponseEntity<GiftCardRegisterResponse> registerGiftCard(@RequestHeader Long userId, @RequestParam String type, @Valid @RequestBody GiftCardRegisterDto giftCardRegisterDto) {
 
         return ResponseEntity.ok(giftCardFacade.registerGiftCard(giftCardRegisterDto, userId, type));
     }
@@ -62,7 +63,7 @@ public class GiftCardController {
      * @param pageable
      * @return
      */
-    @GetMapping("/")
+    @GetMapping("/my")
     public ResponseEntity<MyGiftCardListResponse> getMyCardList(@RequestHeader Long userId, Pageable pageable) {
         return ResponseEntity.ok(giftCardFacade.getMyCardList(userId, pageable));
     }

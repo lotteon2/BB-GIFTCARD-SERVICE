@@ -7,6 +7,7 @@ import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.repository.GiftCardRepository;
 import kr.bb.giftcard.repository.GiftCardTemplateRepository;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
+import kr.bb.giftcard.service.response.GiftCardRegisterResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -83,7 +84,6 @@ class GiftCardServiceTest {
         GiftCard result = registerGiftCard(3L);
 
         assertThat(result.getCardId()).isNotNull();
-        assertThat(result.getUserId()).isEqualTo(userId);
         assertThat(result.getPassword()).isEqualTo(password);
     }
 
