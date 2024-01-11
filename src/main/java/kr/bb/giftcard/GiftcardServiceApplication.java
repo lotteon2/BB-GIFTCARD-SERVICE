@@ -16,9 +16,4 @@ public class GiftcardServiceApplication {
         SpringApplication.run(GiftcardServiceApplication.class, args);
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 }
