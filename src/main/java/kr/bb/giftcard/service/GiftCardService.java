@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class GiftCardService {
     private final GiftCardTemplateRepository cardTemplateRepository;
     private final GiftCardRepository giftCardRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     // 내가 쓴 카드 목록 조회
     public MyGiftCardListResponse getMyCardList(Long userId, Pageable paging) {
@@ -44,7 +43,7 @@ public class GiftCardService {
 
         CardTemplate cardTemplate = cardTemplateRepository.findByCardTemplateId(giftCard.getCardTemplate().getCardTemplateId())
                 .orElseThrow(() -> new InvalidGiftCardTemplateException("존재하지 않는 카드 템플릿입니다."));
-        if(!passwordEncoder.matches(giftCard.getPassword(), password)) throw new InvalidPasswordException("유효하지 않은 접근입니다.");
+        if(!giftCard.getPassword().equals(password)) throw new InvalidPasswordException("유효하지 않은 접근입니다.");
 
         return GiftCardDetailResponse.builder()
                 .cardId(giftCard.getCardId())

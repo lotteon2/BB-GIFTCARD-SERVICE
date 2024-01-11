@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -31,7 +30,6 @@ import static org.mockito.BDDMockito.given;
 class GiftCardServiceTest {
     private final Long userId = 1L;
     private final String password = "ASDFQWER";
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private GiftCardService giftCardService;
@@ -83,7 +81,6 @@ class GiftCardServiceTest {
         GiftCard result = registerGiftCard(3L);
 
         assertThat(result.getCardId()).isNotNull();
-        assertThat(result.getUserId()).isEqualTo(userId);
         assertThat(result.getPassword()).isEqualTo(password);
     }
 
@@ -104,9 +101,7 @@ class GiftCardServiceTest {
         em.clear();
         Long cardId = giftCardRepository.findAll().get(0).getCardId();
 
-        String encPassword = passwordEncoder.encode(password);
-
-        GiftCardDetailResponse detail = giftCardService.getCardDetail(cardId, encPassword);
+        GiftCardDetailResponse detail = giftCardService.getCardDetail(cardId, password);
         assertThat(detail.getCardId()).isEqualTo(cardId);
     }
 

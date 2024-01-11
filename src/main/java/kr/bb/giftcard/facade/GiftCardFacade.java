@@ -8,9 +8,11 @@ import kr.bb.giftcard.message.CardSNSPublisher;
 import kr.bb.giftcard.message.event.CardRegisterEvent;
 import kr.bb.giftcard.service.GiftCardService;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
+import kr.bb.giftcard.service.response.GiftCardRegisterResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -30,9 +32,11 @@ public class GiftCardFacade {
         return giftCardService.getCardDetail(cardId, password);
     }
 
-    public GiftCard registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type) {
+    public GiftCardRegisterResponse registerGiftCard(GiftCardRegisterDto giftCardRegisterDto, Long userId, String type) {
         String tmpPassword = UUID.randomUUID().toString().split("-")[0];
-        GiftCard result = giftCardService.registerGiftCard(giftCardRegisterDto, userId, type, tmpPassword);
+        GiftCard registered = giftCardService.registerGiftCard(giftCardRegisterDto, userId, type, tmpPassword);
+        GiftCardRegisterResponse result = GiftCardRegisterResponse.builder().cardId(registered.getCardId()).password(registered.getPassword()).build();
+
         cardSNSPublisher.publish(CardRegisterEvent.of(giftCardRegisterDto.getOrderProductId(), type));
         return result;
     }
@@ -46,5 +50,4 @@ public class GiftCardFacade {
                 " into html code at the same time as translating into Korean? Please print out only the internal content without the 'body' tag.";
         return chatgptService.sendMessage(message);
     }
-
 }
