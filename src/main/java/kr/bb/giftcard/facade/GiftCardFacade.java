@@ -50,4 +50,5 @@ public class GiftCardFacade {
                 " into html code at the same time as translating into Korean? Please print out only the internal content without the 'body' tag.";
         return chatgptService.sendMessage(message);
     }
+}
 
