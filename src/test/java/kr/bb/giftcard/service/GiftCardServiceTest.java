@@ -7,7 +7,6 @@ import kr.bb.giftcard.entity.GiftCard;
 import kr.bb.giftcard.repository.GiftCardRepository;
 import kr.bb.giftcard.repository.GiftCardTemplateRepository;
 import kr.bb.giftcard.service.response.GiftCardDetailResponse;
-import kr.bb.giftcard.service.response.GiftCardRegisterResponse;
 import kr.bb.giftcard.service.response.MyGiftCardListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -32,7 +30,6 @@ import static org.mockito.BDDMockito.given;
 class GiftCardServiceTest {
     private final Long userId = 1L;
     private final String password = "ASDFQWER";
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private GiftCardService giftCardService;
@@ -104,9 +101,7 @@ class GiftCardServiceTest {
         em.clear();
         Long cardId = giftCardRepository.findAll().get(0).getCardId();
 
-        String encPassword = passwordEncoder.encode(password);
-
-        GiftCardDetailResponse detail = giftCardService.getCardDetail(cardId, encPassword);
+        GiftCardDetailResponse detail = giftCardService.getCardDetail(cardId, password);
         assertThat(detail.getCardId()).isEqualTo(cardId);
     }
 
