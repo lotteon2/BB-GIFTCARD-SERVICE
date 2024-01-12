@@ -31,7 +31,7 @@ public class GiftCard {
     private Long userId;
 
     @Column(name = "order_product_id", nullable = false)
-    private String orderProductId;
+    private Long orderProductId;
 
     @Column(name = "content", nullable = false)
     private String content;
