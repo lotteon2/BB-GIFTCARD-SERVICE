@@ -59,8 +59,8 @@ class GiftCardServiceTest {
             }
         }
 
-        registerGiftCard(1L);
-        registerGiftCard(2L);
+        registerGiftCard("1");
+        registerGiftCard("2");
     }
 
     @DisplayName("색상별 등록된 카드 템플릿을 조회한다.")
@@ -78,7 +78,7 @@ class GiftCardServiceTest {
     @DisplayName("회원은 주문 완료 시 기프트카드를 작성할 수 있다.")
     @Test
     void registerGiftCardTest() {
-        GiftCard result = registerGiftCard(3L);
+        GiftCard result = registerGiftCard("3");
 
         assertThat(result.getCardId()).isNotNull();
         assertThat(result.getPassword()).isEqualTo(password);
@@ -134,7 +134,7 @@ class GiftCardServiceTest {
         assertThat(result).isNotEmpty();
     }
 
-    private GiftCard registerGiftCard(Long index) {
+    private GiftCard registerGiftCard(String index) {
         CardTemplate template = giftCardTemplateRepository.findAll().get(0);
 
         GiftCardRegisterDto giftCardRegisterDto = GiftCardRegisterDto.builder()

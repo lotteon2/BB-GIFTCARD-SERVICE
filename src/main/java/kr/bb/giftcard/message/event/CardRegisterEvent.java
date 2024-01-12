@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardRegisterEvent {
-    private Long id;
+    private String id;
     private String cardType;
 
-    public static CardRegisterEvent of(Long id, String cardType) {
+    public static CardRegisterEvent of(String id, String cardType) {
         return CardRegisterEvent.builder()
                 .id(id)
                 .cardType(cardType)
