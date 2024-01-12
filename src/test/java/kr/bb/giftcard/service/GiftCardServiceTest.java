@@ -97,7 +97,7 @@ class GiftCardServiceTest {
     @DisplayName("기프트카드 id와 비밀번호가 일치할 경우 카드의 상세 정보를 조회할 수 있다.")
     @Test
     void getGiftCardDetail() {
-        registerGiftCard("1");
+        registerGiftCard(4L);
         em.clear();
         Long cardId = giftCardRepository.findAll().get(0).getCardId();
 
@@ -108,7 +108,7 @@ class GiftCardServiceTest {
     @DisplayName("기프트카드 id와 일치하지 않는 비밀번호로 상세 조회 요청 시 예외가 발생한다.")
     @Test
     void getGiftCardDetailWithInvalidPassword() {
-        registerGiftCard("1");
+        registerGiftCard(5L);
 
         Long cardId = giftCardRepository.findAll().get(0).getCardId();
 
