@@ -105,7 +105,7 @@ class GiftCardControllerTest {
     @Test
     void giftCardCreatePropertiesCannotBeNullAndEmpty4() throws Exception {
         GiftCardRegisterDto giftCardRegisterDto = GiftCardRegisterDto.builder()
-                .orderProductId(1L)
+                .orderProductId("1")
                 .cardTemplateId(1L)
                 .content("")
                 .build();
@@ -120,7 +120,7 @@ class GiftCardControllerTest {
 
     private GiftCardRegisterDto createRegisterDto() {
         return GiftCardRegisterDto.builder()
-                .orderProductId(1L)
+                .orderProductId("1")
                 .cardTemplateId(1L)
                 .content("test content")
                 .build();

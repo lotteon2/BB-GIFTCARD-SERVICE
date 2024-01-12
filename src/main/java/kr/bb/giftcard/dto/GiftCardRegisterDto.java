@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 public class GiftCardRegisterDto {
     @NotNull(message = "orderProductId cannot be null")
-    private Long orderProductId;
+    private String orderProductId;
 
     @NotNull(message = "cardTemplateId cannot be null")
     private Long cardTemplateId;
